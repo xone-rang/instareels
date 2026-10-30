@@ -1,166 +1,202 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instagram Reel Downloader</title>
-
+<meta name="description" content="PixelLite is a free browser-based image compressor. Compress JPG, PNG and WebP images locally and download smaller JPEG files.">
+<title>PixelLite — Image Compressor</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+:root{--bg:#08080d;--panel:#11111a;--panel2:#171522;--purple:#8b18ed;--purple2:#b026ff;--text:#f5f1fb;--muted:#aaa4b8;--line:#30263e;--green:#35c99a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 78% 8%,#31104d 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial}
+.top{height:64px;border-bottom:1px solid #282331;display:flex;align-items:center;justify-content:space-between;padding:0 max(5vw,20px);background:#09090dcc}
+.brand{font-size:21px;font-weight:800;letter-spacing:-.8px}.brand span{color:#bd55ff}.nav{display:flex;gap:22px;align-items:center;color:#c5bdcf;font-size:13px}.nav a{color:inherit;text-decoration:none}.pill{border:1px solid #514064;border-radius:20px;padding:7px 13px}
+.notice{text-align:center;background:#f4e8ff;color:#4a176b;padding:8px 12px;font-size:12px;font-weight:650}
+main{max-width:1120px;margin:46px auto;padding:0 22px}.hero{text-align:center;margin-bottom:28px}.eyebrow{color:#c477ff;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800}.hero h1{font-size:clamp(29px,5vw,46px);line-height:1.1;margin:9px 0 12px;letter-spacing:-1.7px}.hero p{color:var(--muted);margin:0}
+.workspace{border:1px solid #7022a4;background:linear-gradient(145deg,#121018,#0d0c12 65%);border-radius:18px;box-shadow:0 20px 80px #5d0c8b22;padding:22px;position:relative}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.pane{background:#0b0b10;border:1px solid #292432;border-radius:13px;padding:15px;min-width:0}.pane h2{font-size:14px;margin:0 0 12px;color:#ddd4e9}
+.drop{min-height:245px;border:1.5px dashed #75409a;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;padding:15px;background:#100d17;cursor:pointer;overflow:hidden}.drop.drag{border-color:#d58aff;background:#1c1028}.drop img{max-width:100%;max-height:220px;object-fit:contain;border-radius:7px}.drop-content .icon{font-size:38px;color:#c16cff}.drop-content strong{display:block;margin:7px 0}.drop-content small{color:var(--muted)}
+input[type=file]{display:none}.btn{border:0;border-radius:9px;background:linear-gradient(90deg,#7c10d8,#a20cff);color:white;font-weight:750;padding:12px 17px;cursor:pointer;box-shadow:0 5px 18px #8500d544}.btn:disabled{opacity:.4;cursor:not-allowed}.btn.secondary{background:#241432;border:1px solid #583078;box-shadow:none}.full{width:100%;margin-top:12px}
+.meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:10px}.meta b{color:#eee}
+.controls{display:flex;align-items:center;gap:12px;margin:15px 0 10px}.controls label{font-size:12px;color:#c9bfd3}.controls input{flex:1;accent-color:#ad31ff}
+select{background:#17121e;color:#fff;border:1px solid #493458;border-radius:7px;padding:8px}
+.target{display:flex;align-items:center;justify-content:space-between;background:#17121e;border:1px solid #382845;border-radius:9px;padding:10px 12px;margin-top:12px}.target span{font-size:12px;color:#c8bfd1}.target strong{font-size:17px;color:#e6c4ff}
+.result{margin-top:14px;border:1px solid #30564d;background:#10221f;border-radius:10px;text-align:center;padding:12px}.result strong{font-size:25px;color:#8cf0cf;display:block}.result small{color:#b9d9d0}
+.status{font-size:12px;color:#c9bfd3;min-height:20px;margin-top:10px;text-align:center}.footnote{text-align:center;color:#8e8798;font-size:11px;margin:18px auto 0;max-width:850px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:25px}.feature{border:1px solid #292432;background:#100f16;border-radius:12px;padding:15px}.feature b{display:block;margin-bottom:4px;font-size:13px}.feature span{font-size:12px;color:var(--muted)}
+footer{text-align:center;padding:30px 15px;color:#777181;font-size:12px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.nav a:not(.pill){display:none}main{margin:28px auto}.features{grid-template-columns:1fr}.workspace{padding:12px}.pane{padding:12px}.drop{min-height:190px}}
 
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+.info-wrap{max-width:1000px;margin:34px auto 10px;padding:0 22px}
+.info-card{scroll-margin-top:22px;border:1px solid #392748;background:linear-gradient(145deg,#121018,#0d0c12 65%);border-radius:14px;padding:24px;margin:18px 0}
+.info-card h2{font-size:25px;margin:0 0 12px;color:#f5eaff}
+.info-card h3{font-size:16px;margin:20px 0 7px;color:#e7caff}
+.info-card p,.info-card li{color:#c4bdce;font-size:14px}
+.info-card a{color:#d49aff}
+.info-card ul{padding-left:22px}
+.info-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:22px auto;max-width:1000px;padding:0 18px}
+.info-nav a{color:#e3c8ff;text-decoration:none;border:1px solid #493458;border-radius:20px;padding:7px 12px;font-size:12px}
+footer{border-top:1px solid #292432;margin-top:35px}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 20px;margin:12px auto 0}
+.footer-links a{color:#cda0ef;text-decoration:none}
 
-.container {
-    background: white;
-    padding: 35px 25px;
-    width: 100%;
-    max-width: 420px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-h2 {
-    margin-bottom: 10px;
-    color: #222;
-}
-
-p {
-    color: #777;
-    margin-bottom: 25px;
-    font-size: 14px;
-}
-
-input {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-.download {
-    background: #e1306c;
-    color: white;
-}
-
-.clear {
-    background: #222;
-    color: white;
-}
-
-button:hover {
-    opacity: 0.85;
-}
-
-#message {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #e1306c;
-}
 </style>
 </head>
-
 <body>
-
-<div class="container">
-
-    <h2>Instagram Downloader</h2>
-
-    <p>Paste your Instagram Reel link below</p>
-
-    <input
-        type="url"
-        id="reelLink"
-        placeholder="Paste Instagram Reel URL..."
-    >
-
-    <button class="download" onclick="downloadReel()">
-        Download Reel
-    </button>
-
-    <button class="clear" onclick="clearLink()">
-        Clear
-    </button>
-
-    <div id="message"></div>
-
+<header class="top"><div class="brand">Pixel<span>Lite</span></div><nav class="nav"><a href="#tools">Image Tools</a><a href="#how">How it works</a><a href="#about">About</a><a class="pill" href="#tools">Free · No signup</a></nav></header>
+<div class="notice">Compress images for online forms, applications and documents — right in your browser.</div>
+<main>
+<section class="hero"><div class="eyebrow">Fast · Private · Free</div><h1>Make images smaller.<br><span style="color:#bd55ff">Keep them clear.</span></h1><p>Choose a photo, set your target size and download the compressed image.</p></section>
+<section class="workspace" id="tools">
+<div class="grid">
+<div class="pane"><h2>① Original image</h2>
+<label class="drop" id="dropArea" for="fileInput"><div class="drop-content" id="emptyState"><div class="icon">＋</div><strong>Drop an image here</strong><small>or click to browse · JPG, PNG, WebP</small></div><img id="originalPreview" alt="Original image preview" hidden></label>
+<input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp">
+<div class="meta"><span id="originalName">No image selected</span><b id="originalSize">—</b></div>
+<div class="controls"><label for="targetSize">Target maximum</label><select id="targetSize"><option value="1">1 MB</option><option value="1.5">1.5 MB</option><option value="2">2 MB</option><option value="2.5">2.5 MB</option><option value="3" selected>3 MB</option></select></div>
+<div class="controls"><label for="quality">Quality</label><input id="quality" type="range" min="45" max="95" value="85"><b id="qualityValue">85%</b></div>
+<button class="btn full" id="compressBtn" disabled>Compress image</button>
 </div>
+<div class="pane"><h2>② Compressed image</h2>
+<div class="drop" style="cursor:default" id="resultBox"><div class="drop-content" id="resultEmpty"><div class="icon">✦</div><strong>Your result will appear here</strong><small>Preview and compare the file size</small></div><img id="resultPreview" alt="Compressed image preview" hidden></div>
+<div class="meta"><span id="resultName">Waiting for image</span><b id="resultSize">—</b></div>
+<div class="result"><strong id="saved">—</strong><small id="savedText">Space saved after compression</small></div>
+<button class="btn full" id="downloadBtn" disabled>↓ Download compressed image</button>
+</div>
+</div>
+<div class="status" id="status" role="status" aria-live="polite">Your image stays on your device. Nothing is uploaded.</div>
+</section>
+<div class="features" id="how"><div class="feature"><b>🔒 Private by design</b><span>Compression happens locally in your browser. No account or upload.</span></div><div class="feature"><b>📄 Document friendly</b><span>Choose a maximum target size from 1 MB to 3 MB for form uploads.</span></div><div class="feature"><b>📱 Works across devices</b><span>Use on mobile, tablet or desktop with a modern browser.</span></div></div>
+<p class="footnote">Note: A 1–3 MB result cannot be guaranteed for every image. The tool reduces dimensions and quality as needed. If the image is already smaller than your selected limit, it will not be enlarged. Always check that text and document details remain readable before submitting.</p>
+</main>
 
+<nav class="info-nav" aria-label="Website information">
+  <a href="#about">About Us</a>
+  <a href="#contact">Contact Us</a>
+  <a href="#privacy">Privacy Policy</a>
+  <a href="#terms">Terms of Service</a>
+  <a href="#how-it-works">How It Works</a>
+</nav>
+
+<section class="info-wrap" aria-label="Website information pages">
+  <article class="info-card" id="about">
+    <h2>About PixelLite</h2>
+    <p>PixelLite is a browser-based image compression tool designed to help people make image files smaller for online forms, applications, documents and everyday sharing.</p>
+    <p>The tool lets you select a JPG, PNG or WebP image, choose a maximum target size, adjust the quality setting and download a compressed JPEG result. The current tool performs image processing in your browser using the device's built-in web capabilities.</p>
+    <p>PixelLite is an independent project and is not affiliated with, endorsed by, or sponsored by Google. We aim to make the tool straightforward and explain its limitations clearly.</p>
+  </article>
+
+  <article class="info-card" id="contact">
+    <h2>Contact Us</h2>
+    <p>Questions, feedback or reports about a problem with PixelLite are welcome.</p>
+    <p><strong>Contact email:</strong> <span style="color:#e7caff">[ADD YOUR REAL CONTACT EMAIL HERE]</span></p>
+    <p>Before publishing, replace the placeholder above with an email address that you control. Do not publish a made-up address. You can also add a response-time expectation once you are able to support it.</p>
+    <p>For a privacy or content-related request, include enough detail for us to understand the issue. Do not send passwords or sensitive personal information.</p>
+  </article>
+
+  <article class="info-card" id="privacy">
+    <h2>Privacy Policy</h2>
+    <p><strong>Last updated: 30 October 2026</strong></p>
+    <h3>1. Image processing</h3>
+    <p>In the current version of PixelLite, the selected image is processed in your browser. The page uses browser-side image and canvas features to create the compressed file. The website code provided here does not upload the selected image to a PixelLite server or store it in a PixelLite database. Your browser may keep temporary in-memory data while the page is open.</p>
+    <h3>2. Information you provide</h3>
+    <p>The current tool does not require an account or sign-up. If you contact us by email, we will receive the information you choose to include in that message and use it to respond to your enquiry.</p>
+    <h3>3. Cookies, advertising and third parties</h3>
+    <p>At the time this policy was prepared, this supplied page does not itself set advertising cookies or include Google AdSense code. If advertising services such as Google AdSense are added later, Google and its partners may use cookies, web beacons, IP addresses or similar technologies to collect or receive information from this site and other sites to provide, measure and improve advertising. This policy must be updated before advertising is enabled to accurately describe the services, data uses, consent choices and applicable regional requirements.</p>
+    <p>For information about Google's data practices, users can read <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">How Google uses information from sites or apps that use its services</a>.</p>
+    <h3>4. Data sharing and retention</h3>
+    <p>PixelLite does not receive the image file through the browser-side compression flow in this version. We do not claim that email providers, hosting providers, browsers or any advertising partners have no access to their own service-related data; their handling is governed by their own policies.</p>
+    <h3>5. Children's privacy</h3>
+    <p>PixelLite is a general-purpose utility and is not designed to request personal information from children. Please do not send sensitive personal information through the contact channel.</p>
+    <h3>6. Changes to this policy</h3>
+    <p>We may update this policy when the tool, hosting, analytics or advertising features change. The latest revision date will be shown at the top of this page.</p>
+  </article>
+
+  <article class="info-card" id="terms">
+    <h2>Terms of Service</h2>
+    <p><strong>Last updated: 30 October 2026</strong></p>
+    <h3>1. Use of the tool</h3>
+    <p>You may use PixelLite for lawful, personal or business image-compression tasks. You are responsible for having the rights and permissions needed to use any image you select.</p>
+    <h3>2. No guarantee of a particular result</h3>
+    <p>Compression results depend on the original image, its dimensions, format and selected quality. PixelLite cannot guarantee that every image will reach the selected file-size limit or retain every detail. Review the downloaded image before using or submitting it.</p>
+    <h3>3. Your files and responsibility</h3>
+    <p>In the current browser-based version, image processing happens on your device and the page does not upload the selected image to a PixelLite server. Keep your own original copy of important files. You are responsible for checking the output and complying with the rules of any website or organisation where you submit it.</p>
+    <h3>4. Acceptable use</h3>
+    <p>Do not use the service for unlawful purposes, to violate another person's rights, or to interfere with the website or its users.</p>
+    <h3>5. Availability and changes</h3>
+    <p>The tool is provided on an “as available” basis. Features may change, be interrupted or become unavailable. We will try to keep information on this site accurate, but we do not promise uninterrupted service or error-free results.</p>
+    <h3>6. Third-party services</h3>
+    <p>The website may link to third-party websites or services. We do not control their content, availability or privacy practices. Their own terms and policies apply.</p>
+    <h3>7. Contact</h3>
+    <p>For questions about these terms, use the contact details shown in the <a href="#contact">Contact Us</a> section.</p>
+  </article>
+
+  <article class="info-card" id="how-it-works">
+    <h2>How It Works</h2>
+    <ol>
+      <li>Choose an image in JPG, PNG or WebP format, or drag it into the upload area.</li>
+      <li>Select a maximum target size from 1 MB to 3 MB.</li>
+      <li>Adjust the quality slider if needed, then select “Compress image”.</li>
+      <li>Compare the original and compressed previews and check the resulting file size.</li>
+      <li>Select “Download compressed image” to save the JPEG file to your device.</li>
+    </ol>
+    <p>Image processing is performed locally in the browser in this version. The output is converted to JPEG; transparent areas are filled with white. The tool may reduce image dimensions and quality to try to meet the chosen maximum size. A target size is not guaranteed for every image, so always inspect the result for clarity and readability.</p>
+  </article>
+</section>
+
+<footer>© 2026 PixelLite · Simple image tools<div class="footer-links"><a href="#about">About Us</a><a href="#contact">Contact Us</a><a href="#privacy">Privacy Policy</a><a href="#terms">Terms of Service</a><a href="#how-it-works">How It Works</a></div></footer>
 <script>
-
-function downloadReel() {
-
-    const link = document.getElementById("reelLink").value.trim();
-    const message = document.getElementById("message");
-
-    if (!link) {
-        message.innerText = "Please paste an Instagram link!";
-        return;
-    }
-
-    try {
-        const url = new URL(link);
-
-        if (
-            url.hostname !== "instagram.com" &&
-            url.hostname !== "www.instagram.com"
-        ) {
-            message.innerText = "Please enter a valid Instagram URL!";
-            return;
-        }
-
-        if (!url.pathname.startsWith("/reel/") &&
-            !url.pathname.startsWith("/reels/")) {
-            message.innerText = "Please enter a valid Reel link!";
-            return;
-        }
-
-        // Open the Reel. Actual video downloading
-        // requires an authorized downloader backend.
-        window.open(url.href, "_blank");
-
-        message.innerText = "Reel opened successfully!";
-
-    } catch (error) {
-        message.innerText = "Invalid URL!";
-    }
+const $=id=>document.getElementById(id);
+let sourceFile=null, outputBlob=null, outputUrl=null;
+const MB=1024*1024;
+function fmt(bytes){if(bytes===undefined||bytes===null)return "—";return bytes>=MB?(bytes/MB).toFixed(2)+" MB":(bytes/1024).toFixed(1)+" KB"}
+function setStatus(s){$("status").textContent=s}
+function clearResult(){if(outputUrl)URL.revokeObjectURL(outputUrl);outputUrl=null;outputBlob=null;$("resultPreview").hidden=true;$("resultEmpty").hidden=false;$("resultSize").textContent="—";$("saved").textContent="—";$("savedText").textContent="Space saved after compression";$("downloadBtn").disabled=true}
+function loadFile(file){
+ if(!file)return;
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type)){setStatus("Please choose a JPG, PNG or WebP image.");return}
+ if(file.size>30*MB){setStatus("Please choose an image smaller than 30 MB.");return}
+ sourceFile=file;clearResult();$("originalPreview").src=URL.createObjectURL(file);$("originalPreview").hidden=false;$("emptyState").hidden=true;$("originalName").textContent=file.name;$("originalSize").textContent=fmt(file.size);$("compressBtn").disabled=false;setStatus("Image ready. Choose a target size and compress.");
 }
-
-function clearLink() {
-
-    document.getElementById("reelLink").value = "";
-    document.getElementById("message").innerText = "";
-
+$("fileInput").addEventListener("change",e=>loadFile(e.target.files[0]));
+const drop=$("dropArea");["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("drag")}));["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("drag")}));drop.addEventListener("drop",e=>loadFile(e.dataTransfer.files[0]));
+$("quality").addEventListener("input",e=>$("qualityValue").textContent=e.target.value+"%");
+function canvasBlob(canvas,type,quality){return new Promise(resolve=>canvas.toBlob(resolve,type,quality))}
+async function compress(){
+ if(!sourceFile)return;
+ $("compressBtn").disabled=true;$("downloadBtn").disabled=true;setStatus("Compressing locally…");
+ try{
+  const image=new Image(), objectUrl=URL.createObjectURL(sourceFile);
+  await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=reject;image.src=objectUrl});
+  let w=image.naturalWidth,h=image.naturalHeight;
+  const maxSide=5000, scale=Math.min(1,maxSide/Math.max(w,h));w=Math.round(w*scale);h=Math.round(h*scale);
+  const canvas=document.createElement("canvas"),ctx=canvas.getContext("2d");
+  const target=Number($("targetSize").value)*MB;
+  // JPEG output gives broad compatibility for document upload portals; transparent areas become white.
+  let quality=Number($("quality").value)/100, blob=null;
+  for(let attempt=0;attempt<18;attempt++){
+   canvas.width=w;canvas.height=h;ctx.fillStyle="#ffffff";ctx.fillRect(0,0,w,h);ctx.drawImage(image,0,0,w,h);
+   blob=await canvasBlob(canvas,"image/jpeg",quality);
+   if(blob && blob.size<=target)break;
+   if(quality>0.48)quality-=0.07;
+   else {w=Math.max(480,Math.round(w*.88));h=Math.max(480,Math.round(h*.88));quality=.78}
+   if(w===480&&h===480)break;
+  }
+  URL.revokeObjectURL(objectUrl);
+  if(!blob)throw new Error("This image could not be processed.");
+  outputBlob=blob;outputUrl=URL.createObjectURL(blob);
+  $("resultPreview").src=outputUrl;$("resultPreview").hidden=false;$("resultEmpty").hidden=true;
+  $("resultName").textContent=sourceFile.name.replace(/\.[^.]+$/,"")+"_compressed.jpg";$("resultSize").textContent=fmt(blob.size);
+  const saved=sourceFile.size?Math.max(0,(1-blob.size/sourceFile.size)*100):0;
+  $("saved").textContent=saved.toFixed(1)+"%";$("savedText").textContent=blob.size<=target?"Size reduced · within selected limit":"Best effort result · selected limit not reached";
+  $("downloadBtn").disabled=false;
+  setStatus(blob.size<=target?"Done! Your compressed image is ready.":"Done, but this image could not reach the selected size while preserving a usable result. Try a lower quality or smaller dimensions.");
+ }catch(err){setStatus(err.message||"Compression failed. Try another image.");}
+ finally{$("compressBtn").disabled=false}
 }
-
+$("compressBtn").addEventListener("click",compress);
+$("downloadBtn").addEventListener("click",()=>{
+ if(!outputBlob)return;
+ const a=document.createElement("a");a.href=outputUrl;a.download=(sourceFile.name.replace(/\.[^.]+$/,"")||"image")+"_compressed.jpg";document.body.appendChild(a);a.click();a.remove();
+});
 </script>
-
-</body>
-</html>
+</body></html>
