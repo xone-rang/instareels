@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Reel Downloader</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 35px 25px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h2 {
+    margin-bottom: 10px;
+    color: #222;
+}
+
+p {
+    color: #777;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.download {
+    background: #e1306c;
+    color: white;
+}
+
+.clear {
+    background: #222;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+#message {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #e1306c;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Instagram Downloader</h2>
+
+    <p>Paste your Instagram Reel link below</p>
+
+    <input
+        type="url"
+        id="reelLink"
+        placeholder="Paste Instagram Reel URL..."
+    >
+
+    <button class="download" onclick="downloadReel()">
+        Download Reel
+    </button>
+
+    <button class="clear" onclick="clearLink()">
+        Clear
+    </button>
+
+    <div id="message"></div>
+
+</div>
+
+<script>
+
+function downloadReel() {
+
+    const link = document.getElementById("reelLink").value.trim();
+    const message = document.getElementById("message");
+
+    if (!link) {
+        message.innerText = "Please paste an Instagram link!";
+        return;
+    }
+
+    try {
+        const url = new URL(link);
+
+        if (
+            url.hostname !== "instagram.com" &&
+            url.hostname !== "www.instagram.com"
+        ) {
+            message.innerText = "Please enter a valid Instagram URL!";
+            return;
+        }
+
+        if (!url.pathname.startsWith("/reel/") &&
+            !url.pathname.startsWith("/reels/")) {
+            message.innerText = "Please enter a valid Reel link!";
+            return;
+        }
+
+        // Open the Reel. Actual video downloading
+        // requires an authorized downloader backend.
+        window.open(url.href, "_blank");
+
+        message.innerText = "Reel opened successfully!";
+
+    } catch (error) {
+        message.innerText = "Invalid URL!";
+    }
+}
+
+function clearLink() {
+
+    document.getElementById("reelLink").value = "";
+    document.getElementById("message").innerText = "";
+
+}
+
+</script>
+
+</body>
+</html>
